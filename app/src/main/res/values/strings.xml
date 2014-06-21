@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">GlassTester</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="glass_voice_mother_trigger">Record a story</string>
+    <string name="glass_voice_son_trigger">Listen to a story</string>
+    <string name="mother_action_new">New</string>
+    <string name="mother_action_save">Save</string>
+    <string name="mother_action_exit">Exit</string>
+    <string name="wizard_content">Wizard content</string>
+    <string name="record_start_recording">Record page %1$s</string>
+    <string name="record_start_recorded">Page %1$s recorded</string>
+    <string name="record_stop_recording">Stop recording</string>
+
+</resources>
