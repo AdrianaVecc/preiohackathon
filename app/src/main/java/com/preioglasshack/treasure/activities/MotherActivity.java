@@ -1,10 +1,13 @@
 package com.preioglasshack.treasure.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.google.android.glass.media.Sounds;
 import com.preioglasshack.treasure.R;
 
 import com.preioglasshack.treasure.adapters.MotherAdapter;
@@ -58,7 +61,17 @@ public class MotherActivity extends BaseCardScrollActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        PreferencesHelper.removeCurrentBook(this);
+    }
+
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        ((AudioManager) getSystemService(Context.AUDIO_SERVICE)).playSoundEffect(Sounds.TAP);
+
         // TODO Use something better than position
         switch (position) {
             case 0:
@@ -66,7 +79,7 @@ public class MotherActivity extends BaseCardScrollActivity {
                     SoundsHelper.removeBookSounds(this, mCodeBookId);
                 }
 
-                startActivity(new Intent(this, ScanActivity.class));
+                startActivity(new Intent(this, SubmitImageActivity.class));
                 break;
             case 1:
                 finish();

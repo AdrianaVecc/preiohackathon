@@ -32,7 +32,6 @@ public class RecordCard extends RelativeLayout implements CountdownListener {
     private RecordListener mRecordListener;
     private RecordStateChangeListener mRecordStateChangeListener;
 
-    // Sounds ID visible for testing.
     final int mCountDownFinishSoundId;
     final int mCountDownSoundId;
     final int mFinishSoundId;
@@ -96,7 +95,7 @@ public class RecordCard extends RelativeLayout implements CountdownListener {
 
         switch(mState) {
             case STATE_WAITING:
-                addCustomView(useCenterText(getContext().getString(R.string.record_start_recording, mPosition), R.drawable.ic_start_recording));
+                addCustomView(useCenterText(getContext().getString(R.string.record_start_recording, mPosition + 1), R.drawable.ic_start_recording));
                 break;
             case STATE_COUNTDOWN:
                 addCustomView(useCountdown());
@@ -105,7 +104,7 @@ public class RecordCard extends RelativeLayout implements CountdownListener {
                 addCustomView(useChronometer());
                 break;
             case STATE_RECORDING_ENDED:
-                addCustomView(useCenterText(getContext().getString(R.string.record_start_recorded, mPosition), R.drawable.ic_stop_recording));
+                addCustomView(useCenterText(getContext().getString(R.string.record_start_recorded, mPosition + 1), R.drawable.ic_stop_recording));
                 break;
         }
     }

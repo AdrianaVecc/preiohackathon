@@ -40,7 +40,7 @@ public class RecordActivity extends BaseCardScrollActivity implements RecordList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mBookId = getIntent().getStringExtra(ScanActivity.EXTRA_BOOK_ID);
+        mBookId = getIntent().getStringExtra(PlaylistActivity.EXTRA_BOOK_ID);
         if (PreferencesHelper.BOOK_DEFAULT_VALUE.equals(mBookId)) {
             finish();
             return;

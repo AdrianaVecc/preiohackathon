@@ -26,7 +26,7 @@ public class SoundsHelper {
     public static final int BytesPerElement = 2;
 
     public static final String getFilePath(Context cOntext, String id, int position) {
-        return SoundsHelper.getFolderPath(cOntext, id) + position + ".pcm";
+        return SoundsHelper.getFolderPath(cOntext, id) + "/" + position + ".pcm";
     }
 
     public static final String getFolderPath(Context context, String id) {

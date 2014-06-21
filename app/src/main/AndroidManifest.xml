@@ -9,6 +9,9 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
 
     <application
         android:allowBackup="true"
@@ -31,11 +34,11 @@
         </activity>
 
         <activity
-            android:name=".activities.SonActivity">
-            <!--<intent-filter>
+            android:name=".activities.IdentifyImageActivity">
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
             <intent-filter>
                 <action android:name="com.google.android.glass.action.VOICE_TRIGGER" />
             </intent-filter>
@@ -43,11 +46,19 @@
                 android:resource="@xml/trigger_son" />
         </activity>
 
-        <activity android:name=".activities.ScanActivity"/>
+        <activity android:name=".activities.SubmitImageActivity"/>
 
         <activity android:name=".activities.WizardActivity"/>
 
         <activity android:name=".activities.RecordActivity"/>
+
+        <activity android:name=".activities.PlaylistActivity"/>
+
+        <activity android:name=".activities.SonEndActivity"/>
+
+        <service android:name=".service.MusicPlayerService"
+            android:exported="false"
+            android:enabled="true"/>
 
     </application>
 

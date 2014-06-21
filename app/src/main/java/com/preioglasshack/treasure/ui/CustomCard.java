@@ -45,6 +45,10 @@ public class CustomCard extends FrameLayout {
         mCustomCardInner.setText(textId);
     }
 
+    public void setText(String text) {
+        mCustomCardInner.setText(text);
+    }
+
     public void setCompoundDrawablesWithIntrinsicBounds(int i1, int i2, int i3, int i4) {
         mCustomCardInner.setCompoundDrawablePadding(getContext().getResources().getDimensionPixelOffset(R.dimen.glass_card_drawable_padding));
         mCustomCardInner.setCompoundDrawablesWithIntrinsicBounds(i1, i2, i3, i4);
