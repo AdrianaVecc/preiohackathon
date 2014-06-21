@@ -3,4 +3,7 @@
 
     <item type="id" name="card"/>
 
+    <item type="id" name="slider_control">false</item>
+    <item type="id" name="indeterminate_slider">false</item>
+
 </resources>

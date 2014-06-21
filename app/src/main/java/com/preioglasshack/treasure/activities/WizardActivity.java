@@ -1,11 +1,14 @@
 package com.preioglasshack.treasure.activities;
 
 import android.app.Activity;
+import android.content.Context;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.google.android.glass.app.Card;
+import com.google.android.glass.media.Sounds;
 import com.google.android.glass.touchpad.Gesture;
 import com.google.android.glass.touchpad.GestureDetector;
 import com.preioglasshack.treasure.R;
@@ -41,6 +44,8 @@ public class WizardActivity extends Activity implements GestureDetector.BaseList
     @Override
     public boolean onGesture(Gesture gesture) {
         if (gesture == Gesture.TAP) {
+            ((AudioManager) getSystemService(Context.AUDIO_SERVICE)).playSoundEffect(Sounds.TAP);
+
             finish();
             return true;
         }

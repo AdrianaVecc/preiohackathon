@@ -25,7 +25,7 @@ import java.io.IOException;
 /**
  * Created by g123k on 21/06/14.
  */
-public class RecordActivity extends BaseCardScrollActivity implements RecordListener {
+public class RecordActivity extends BaseCardScrollActivity implements RecordListener, AdapterView.OnItemSelectedListener {
 
     private String mBookId;
 
@@ -34,6 +34,8 @@ public class RecordActivity extends BaseCardScrollActivity implements RecordList
     private AudioRecord mRecorder;
     private Thread mRecordingThread;
     private boolean mIsRecording;
+
+    private int mPreviousSelection = -1;
 
 
     @Override
@@ -45,6 +47,10 @@ public class RecordActivity extends BaseCardScrollActivity implements RecordList
             finish();
             return;
         }
+
+        System.out.println("APPXOID : " + mBookId);
+
+        mCardScrollView.setOnItemSelectedListener(this);
 
         PreferencesHelper.setCurrentBook(this, mBookId);
 
@@ -66,15 +72,18 @@ public class RecordActivity extends BaseCardScrollActivity implements RecordList
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        getView(position).nextState();;
+    }
+
+    private RecordCard getView(int position) {
         int firstPosition = mCardScrollView.getFirstVisiblePosition();
         int wantedChild = position - firstPosition;
 
         if (wantedChild < 0 || wantedChild >= mCardScrollView.getChildCount()) {
-            return;
+            return null;
         }
 
-        RecordCard wantedView = (RecordCard) (mCardScrollView.getChildAt(wantedChild)).findViewById(R.id.card);
-        wantedView.nextState();
+        return (RecordCard) (mCardScrollView.getChildAt(wantedChild)).findViewById(R.id.card);
     }
 
     @Override
@@ -115,6 +124,9 @@ public class RecordActivity extends BaseCardScrollActivity implements RecordList
         // Write the output audio in byte
 
         String filePath = SoundsHelper.getFilePath(this, mBookId, position);
+
+        System.out.println("APPXOID : " + filePath);
+
         short sData[] = new short[SoundsHelper.BufferElements2Rec];
 
         FileOutputStream os = null;
@@ -165,5 +177,19 @@ public class RecordActivity extends BaseCardScrollActivity implements RecordList
             mRecorder = null;
             mRecordingThread = null;
         }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (mPreviousSelection != position) {
+            stopRecording();
+
+            getView(position).stop();
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

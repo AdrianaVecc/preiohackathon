@@ -1,8 +1,8 @@
 package com.preioglasshack.treasure.activities;
 
 import android.app.Activity;
-  import android.content.Intent;
-  import android.os.Bundle;
+ import android.content.Intent;
+ import android.os.Bundle;
 
  import java.io.File;
  import java.io.IOException;
@@ -22,6 +22,8 @@ import android.app.Activity;
  import org.apache.http.params.HttpConnectionParams;
  import org.apache.http.params.HttpParams;
  import org.apache.http.util.EntityUtils;
+ import org.json.JSONException;
+ import org.json.JSONObject;
 
  import android.app.Activity;
  import android.app.ProgressDialog;
@@ -31,17 +33,19 @@ import android.app.Activity;
  import android.os.AsyncTask;
  import android.os.Bundle;
  import android.os.FileObserver;
+ import android.os.Message;
  import android.provider.MediaStore;
  import android.util.Log;
 
  import com.google.android.glass.media.CameraManager;
  import com.google.android.glass.media.Sounds;
+ import com.preioglasshack.treasure.ui.MessageDialog;
 
 public class SubmitImageActivity extends Activity {
 
      private static final String TAG = SubmitImageActivity.class.getSimpleName();
 
-     private ProgressDialog waitdialog;
+     private MessageDialog waitdialog;
 
      private String picture;
      private String thumbnail;
@@ -55,7 +59,6 @@ public class SubmitImageActivity extends Activity {
          Log.i(TAG,"onCreate()");
          Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
          startActivityForResult(intent, TAKE_PHOTO);
-
      }
 
      @Override
@@ -79,7 +82,14 @@ public class SubmitImageActivity extends Activity {
 
              Log.i(TAG, "found accident photo path:" + picturepath);
 
-             waitdialog = ProgressDialog.show(this, "Picture preparation...", "pending");
+             waitdialog = new MessageDialog.Builder(this)
+                     .setMessage("Picture preparation...")
+                     .setSecondaryMessage("pending")
+                     .setDismissable(false)
+                     .setAutoHide(false)
+                     .build();
+
+             waitdialog.show();
 
              processPictureWhenReady(picturepath);
              picture=picturepath;
@@ -102,9 +112,6 @@ public class SubmitImageActivity extends Activity {
              waitdialog.dismiss();
              // ###################### handle picture
              submitImage();
-
-
-
 
          } else {
              Log.i(TAG, "-----> File DOESNT exists!");
@@ -209,25 +216,16 @@ public class SubmitImageActivity extends Activity {
          result = EntityUtils.toString(httpEntity);
          Log.d(TAG, "completed HTTP POST request - result :" + result);
 
-
-
-
-
-
-
          return result;
      }
 
 
      private void submitImage() {
 
-         ProgressDialog waitdialog;
-
          new AsyncTask<String, Void, String> (){
 
              private final String ERROR_MESSAGE = "[ERROR]";
 
-             ProgressDialog waitdialog;
              @Override
              protected String doInBackground(String... params) {
                  String result=null;
@@ -250,7 +248,15 @@ public class SubmitImageActivity extends Activity {
              @Override
              protected void onPreExecute(){
                  Log.i(TAG+"+Async", "onPreExecute Called");
-                 waitdialog = ProgressDialog.show(SubmitImageActivity.this, "Image submission", "pending");
+                 waitdialog = new MessageDialog.Builder(SubmitImageActivity.this)
+                         .setMessage("Image submission")
+                         .setSecondaryMessage("pending")
+                         .setDismissable(false)
+                         .setAutoHide(false)
+                         .setKeepScreenOn(true)
+                         .build();
+
+                 waitdialog.show();
              }
 
              @Override
@@ -266,10 +272,18 @@ public class SubmitImageActivity extends Activity {
                  } else {
                      am.playSoundEffect(Sounds.SUCCESS);
 
-                     Intent intent = new Intent(SubmitImageActivity.this, RecordActivity.class);
-                     intent.putExtra(PlaylistActivity.EXTRA_BOOK_ID, result);
+                     try {
+                         JSONObject json = new JSONObject(result);
 
-                     startActivity(intent);
+                         Intent intent = new Intent(SubmitImageActivity.this, RecordActivity.class);
+
+                         intent.putExtra(PlaylistActivity.EXTRA_BOOK_ID, json.getString("id"));
+
+                         startActivity(intent);
+                     } catch (JSONException e) {
+                         e.printStackTrace();
+                         am.playSoundEffect(Sounds.ERROR);
+                     }
                  }
 
                  finish();

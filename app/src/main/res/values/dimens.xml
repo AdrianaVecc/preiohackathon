@@ -1,4 +1,10 @@
 <resources>
     <dimen name="glass_card_margin">40px</dimen>
     <dimen name="glass_card_drawable_padding">20dp</dimen>
+
+    <dimen name="slider_bar_height">12.0px</dimen>
+    <dimen name="large_text_size">70.0px</dimen>
+    <dimen name="medium_text_size">40.0px</dimen>
+    <dimen name="small_text_size">26.0px</dimen>
+    <item type="dimen" name="background_dim_amount">0.8</item>
 </resources>

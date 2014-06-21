@@ -202,4 +202,14 @@ public class RecordCard extends RelativeLayout implements CountdownListener {
                 0 /* loop */,
                 1 /* rate */);
     }
+
+    public void stop() {
+        if (mState == STATE_RECORDING) {
+            mState = STATE_RECORDING_ENDED;
+            recreate();
+        } else if (mState == STATE_COUNTDOWN) {
+            mState = STATE_WAITING;
+            recreate();
+        }
+    }
 }

@@ -32,7 +32,6 @@ public class PlaylistActivity extends BaseCardScrollActivity implements AdapterV
     private String mBookId;
 
     private MusicPlayerService mService;
-    private PowerManager.WakeLock mWakeLock;
 
     private int mLastPosition = -1;
     private int mCount = 0;
